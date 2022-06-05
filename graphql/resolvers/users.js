@@ -1,4 +1,4 @@
-const bcyrpt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { UserInputError } = require('apollo-server')
 
@@ -64,7 +64,7 @@ module.exports = {
         })
       }
       // hash pass and create auth token
-      password = await bcyrpt.hash(password, 12)
+      password = await bcrypt.hash(password, 12)
 
       const newUser = new User({
         email, username, password, createdAt: new Date().toISOString()
