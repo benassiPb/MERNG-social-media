@@ -1,14 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client'
+import { ApolloClient, createHttpLink, InMemoryCache, ApolloProvider, useQuery, gql } from '@apollo/client'
+// import {createHttpLink} from 'apollo-link-http'
+import { setContext } from '@apollo/client/link/context'
 import App from './App.js'
 
-const client = new ApolloClient({
-  uri: 'http://localhost:5000',
-  cache: new InMemoryCache()
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5000'
 })
 
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('jwtToken')
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : ''
+    }
+  }
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
