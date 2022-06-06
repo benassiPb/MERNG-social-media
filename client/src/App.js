@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import MenuBar from './components/Menu';
+import SinglePost from './pages/SinglePost';
 
 export default function App() {
   return (
@@ -25,7 +26,9 @@ export default function App() {
               {<Login />} />
             <Route exact path='/register' element=
               {<Register />} />
+            <Route exact path='/posts/:postId' element={<SinglePost />} />
           </Routes>
+
         </Container>
       </Router>
     </AuthProvider>
